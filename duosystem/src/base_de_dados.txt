@@ -1,0 +1,40 @@
+Script para criação da base de dados.
+CREATE DATABASE duosystem CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+Criação da tabela que armazena as informações de Status.
+CREATE TABLE IF NOT EXISTS `duosystem`.`status` (
+  `id_status` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(255) NULL,
+  PRIMARY KEY (`id_status`))
+ENGINE = InnoDB;
+
+Criação da tabela que armazena as informações de Situação.
+CREATE TABLE IF NOT EXISTS `duosystem`.`situacao` (
+  `id_situacao` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NULL,
+  PRIMARY KEY (`id_situacao`))
+ENGINE = InnoDB;
+
+Criação da tabela que armazena as informações as Atividades e suas constraints.
+CREATE TABLE IF NOT EXISTS `duosystem`.`atividades` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(255) NOT NULL,
+  `descricao` LONGTEXT NOT NULL,
+  `data_inicio` DATE NOT NULL,
+  `data_fim` DATE NOT NULL,
+  `id_status` INT NOT NULL,
+  `id_situacao` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_atividades_status_idx` (`id_status` ASC),
+  INDEX `fk_atividades_status1_idx` (`id_situacao` ASC),
+  CONSTRAINT `fk_atividades_status`
+    FOREIGN KEY (`id_status`)
+    REFERENCES `duosystem`.`status` (`id_status`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_atividades_status1`
+    FOREIGN KEY (`id_situacao`)
+    REFERENCES `duosystem`.`situacao` (`id_situacao`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
